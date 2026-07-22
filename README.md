@@ -16,9 +16,15 @@ The interesting engineering is in the apparatus that would tell you if it did no
 | [ux-struggle-detector](https://github.com/csnyder256/ux-struggle-detector) | Maps a customer's web app, watches real users through a drop-in script tag, detects 40 named struggle patterns server-side, and returns help in the same HTTP response the events arrived in. |
 | [grain-bids-to-excel](https://github.com/csnyder256/grain-bids-to-excel) | Built for one person doing one tedious job. Scrapes grain elevator cash-bid pages that share no common format, normalizes them into one schema, and produces the Excel workbook they used to retype by hand. |
 | [gba-rom-hack-ide](https://github.com/csnyder256/gba-rom-hack-ide) | A local web IDE for Game Boy Advance ROM hacking. Scans a decompilation project into one typed manifest, edits it visually or in plain English, and builds a playable ROM. Tooling only, no game data included. |
+| [RAG-OS](https://github.com/csnyder256/RAG-OS) | A blueprint, not an application. It describes how to build a self-hosted personal AI operating system: a zero-context kernel that stays running, a git-Markdown knowledge base you can audit, and dispatch of coding tasks across your own repositories. You paste it into a coding agent and it builds the system with you, stopping to ask at every design fork. Ships a runnable stdlib-only starter for the first two milestones. |
 
 The first two are a pair. One decides what a contract is worth; the other runs and grades
 strategies that act on that kind of judgment.
+
+RAG-OS is the odd one out and is meant to be. The rest of this list is software I built; that
+one is the architecture written down, with the decision forks left open instead of resolved for
+you. It came out of running an always-on agent on my own hardware for long enough to collect the
+failure modes worth designing against.
 
 ## A few things I am proud of
 
@@ -36,6 +42,6 @@ strategies that act on that kind of judgment.
 
 ## Working notes
 
-Every repo here is MIT licensed and has a short landing page under its About link. Test counts
-in the badges come from CI, not from me. Where something is unfinished or unproven, the README
-says so.
+Every repo here is MIT licensed and has a short landing page under its About link. Where a repo
+has a test suite, the count in its badge comes from CI rather than from me. Where something is
+unfinished or unproven, the README says so.
