@@ -17,17 +17,31 @@ The interesting engineering is in the apparatus that would tell you if it did no
 | [grain-bids-to-excel](https://github.com/csnyder256/grain-bids-to-excel) | Built for one person doing one tedious job. Scrapes grain elevator cash-bid pages that share no common format, normalizes them into one schema, and produces the Excel workbook they used to retype by hand. |
 | [gba-rom-hack-ide](https://github.com/csnyder256/gba-rom-hack-ide) | A local web IDE for Game Boy Advance ROM hacking. Scans a decompilation project into one typed manifest, edits it visually or in plain English, and builds a playable ROM. Tooling only, no game data included. |
 | [RAG-OS](https://github.com/csnyder256/RAG-OS) | A blueprint, not an application. It describes how to build a self-hosted personal AI operating system: a zero-context kernel that stays running, a git-Markdown knowledge base you can audit, and dispatch of coding tasks across your own repositories. You paste it into a coding agent and it builds the system with you, stopping to ask at every design fork. Ships a runnable stdlib-only starter for the first two milestones. |
+| [org-memory-os](https://github.com/csnyder256/org-memory-os) | The organizational sibling of RAG-OS: one shared, permission-aware, auditable AI memory that any number of employees use through their own agents, with the same compaction and degradation-avoidance discipline underneath. It keeps the parts of the personal design that survive a crowd and replaces the parts that do not, the single writer, the one trusted operator, and never-delete, which is right for knowledge and illegal for personal data the moment erasure applies. Thirteen pillars, seventy decision forks left open, and no starter by design. |
 
 The first two are a pair. One decides what a contract is worth; the other runs and grades
 strategies that act on that kind of judgment.
 
-RAG-OS is the odd one out and is meant to be. The rest of this list is software I built; that
-one is the architecture written down, with the decision forks left open instead of resolved for
-you. It came out of running an always-on agent on my own hardware for long enough to collect the
-failure modes worth designing against.
+RAG-OS and org-memory-os are the odd pair, and they are meant to be. The rest of this list is
+software I built; those two are the architecture written down, with the decision forks left open
+instead of resolved for you. One is the always-on agent I run on my own hardware; the other is
+what it has to become before a whole organization can share it without leaking it, poisoning it,
+or letting it rot. Both came out of collecting the failure modes worth designing against rather
+than guessing at them.
 
 ## A few things I am proud of
 
+The two AI memory systems above are the work I am proudest of, for the same reason as everything
+else here: what makes them worth anything is the apparatus that would catch them lying.
+
+- In RAG-OS, security enforcement that is proven to fire rather than trusted. The agent
+  framework's own permission callback silently never ran, so a fenced read leaked; enforcement
+  moved to a hook that fires on every single tool call, and a nightly canary re-proves the
+  crown-jewel paths still deny by reading a real denial back out of the audit log.
+- In org-memory-os, a cross-tenant isolation canary that is a hard release gate. Every night it
+  plants a unique marker in each team's memory and tries to read another team's marker back
+  through the real retrieval path, and it fails the build if that ever succeeds. A shared index
+  is a design claim until that probe turns it into a measured fact.
 - A test in the trading repo that spawns a clean subprocess and asserts no order-placement code
   is even reachable from the live decision path. Inside a shared test process the same check
   would pass vacuously, and the test says so in a comment.
