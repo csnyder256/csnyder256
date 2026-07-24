@@ -18,6 +18,7 @@ Resume and full record: **[csnyder256.github.io](https://csnyder256.github.io/)*
 | [ux-struggle-detector](https://github.com/csnyder256/ux-struggle-detector) | Maps a customer's web app, watches real users through a drop-in script tag, detects 40 named struggle patterns server-side, and returns help in the same HTTP response the events arrived in. |
 | [grain-bids-to-excel](https://github.com/csnyder256/grain-bids-to-excel) | Built for one person doing one tedious job. Scrapes grain elevator cash-bid pages that share no common format, normalizes them into one schema, and produces the Excel workbook they used to retype by hand. |
 | [gba-rom-hack-ide](https://github.com/csnyder256/gba-rom-hack-ide) | A local web IDE for Game Boy Advance ROM hacking. Scans a decompilation project into one typed manifest, edits it visually or in plain English, and builds a playable ROM. Tooling only, no game data included. |
+| [kafka-wire](https://github.com/csnyder256/kafka-wire) | A message broker that speaks the Kafka wire protocol, in one Go binary with no ZooKeeper, no JVM and no cluster. I wrote it as ClarusStream to replace a managed Kafka bill that had grown larger than the rest of the infrastructure, and it has run that platform's production traffic since May 2026. This is the vendor-neutral rebuild: cold storage behind one interface so it works with a directory or any S3-compatible store rather than only AWS, and configuration that assumes nothing about where you deploy. |
 | [RAG-OS](https://github.com/csnyder256/RAG-OS) | A blueprint, not an application. It describes how to build a self-hosted personal AI operating system: a zero-context kernel that stays running, a git-Markdown knowledge base you can audit, and dispatch of coding tasks across your own repositories. You paste it into a coding agent and it builds the system with you, stopping to ask at every design fork. Ships a runnable stdlib-only starter for the first two milestones. |
 | [org-memory-os](https://github.com/csnyder256/org-memory-os) | The organizational sibling of RAG-OS: one shared, permission-aware, auditable AI memory that any number of employees use through their own agents, with the same compaction and degradation-avoidance discipline underneath. It keeps the parts of the personal design that survive a crowd and replaces the parts that do not, the single writer, the one trusted operator, and never-delete, which is right for knowledge and illegal for personal data the moment erasure applies. Thirteen pillars, seventy decision forks left open, and no starter by design. |
 
@@ -55,6 +56,12 @@ else here: what makes them worth anything is the apparatus that would catch them
 - A struggle detector that hydrates prior session history before running its rules, because the
   patterns worth catching play out across several requests and a batch-local detector would
   quietly only ever fire the easy ones.
+- A consumer-group test in the broker that asserts an exact record count rather than a minimum.
+  Generalizing that broker from one in-house consumer to anybody's turned up a coordinator that
+  settled each rebalance on the first member to arrive, so every member of a group was assigned
+  every partition and received every record twice. Nothing errored and nothing hung. A test
+  written as "at least twenty" would have passed, which is roughly how the bug survived in the
+  first place.
 
 ## Working notes
 
