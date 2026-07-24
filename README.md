@@ -7,6 +7,8 @@ on what they observe instead of just reporting it.
 Most of what I enjoy is measurement. It is easy to build something that looks like it works.
 The interesting engineering is in the apparatus that would tell you if it did not.
 
+Resume and full record: **[csnyder256.github.io](https://csnyder256.github.io/)**
+
 ## Projects
 
 | Project | What it does |
