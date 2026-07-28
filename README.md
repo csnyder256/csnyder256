@@ -20,6 +20,7 @@ Resume and full record: **[csnyder256.github.io](https://csnyder256.github.io/)*
 | [gba-rom-hack-ide](https://github.com/csnyder256/gba-rom-hack-ide) | A local web IDE for Game Boy Advance ROM hacking. Scans a decompilation project into one typed manifest, edits it visually or in plain English, and builds a playable ROM. Tooling only, no game data included. |
 | [kafka-wire](https://github.com/csnyder256/kafka-wire) | A message broker that speaks the Kafka wire protocol, in one Go binary with no ZooKeeper, no JVM and no cluster. I wrote it as ClarusStream to replace a managed Kafka bill that had grown larger than the rest of the infrastructure, and it has run that platform's production traffic since May 2026. This is the vendor-neutral rebuild: cold storage behind one interface so it works with a directory or any S3-compatible store rather than only AWS, and configuration that assumes nothing about where you deploy. |
 | [RAG-OS](https://github.com/csnyder256/RAG-OS) | A blueprint, not an application. It describes how to build a self-hosted personal AI operating system: a zero-context kernel that stays running, a git-Markdown knowledge base you can audit, and dispatch of coding tasks across your own repositories. You paste it into a coding agent and it builds the system with you, stopping to ask at every design fork. Ships a runnable stdlib-only starter for the first two milestones. |
+| [harness-tuner](https://github.com/csnyder256/harness-tuner) | Measures the scaffolding around a model rather than the model: where a harness re-reads what it already read, loops without erroring, misses its own prompt cache, or grows context until the last step of a task costs more than the first. It reads any harness through an adapter that your own coding agent writes, so nobody's product is named in the code. Then it does the part that makes it worth running twice. It proposes a change, and after you apply it, it re-runs the identical task set and tells you whether that helped, using an anytime-valid test so watching the running comparison does not quietly invalidate it. It publishes no numbers about anybody's harness and has no leaderboard, by design. |
 | [org-memory-os](https://github.com/csnyder256/org-memory-os) | The organizational sibling of RAG-OS: one shared, permission-aware, auditable AI memory that any number of employees use through their own agents, with the same compaction and degradation-avoidance discipline underneath. It keeps the parts of the personal design that survive a crowd and replaces the parts that do not, the single writer, the one trusted operator, and never-delete, which is right for knowledge and illegal for personal data the moment erasure applies. Thirteen pillars, seventy decision forks left open, and no starter by design. |
 
 The first two are a pair. One decides what a contract is worth; the other runs and grades
@@ -56,6 +57,13 @@ else here: what makes them worth anything is the apparatus that would catch them
 - A struggle detector that hydrates prior session history before running its rules, because the
   patterns worth catching play out across several requests and a batch-local detector would
   quietly only ever fire the easy ones.
+- In harness-tuner, a check that every configuration setting is read by something. The first time
+  it ran it found twelve of twenty-nine settings that were accepted, type-checked, validated
+  against their legal values, documented, written into the run artifacts, and read by absolutely
+  nothing. Each one looked finished from every angle except the one that mattered. The same
+  project reports an unobserved value as unavailable rather than as zero, because a harness whose
+  adapter cannot see caching would otherwise look identical to one that caches nothing, and the
+  tool would have invented a finding out of a gap in its own instrumentation.
 - A consumer-group test in the broker that asserts an exact record count rather than a minimum.
   Generalizing that broker from one in-house consumer to anybody's turned up a coordinator that
   settled each rebalance on the first member to arrive, so every member of a group was assigned
